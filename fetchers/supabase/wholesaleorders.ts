@@ -1,10 +1,16 @@
 import { Query } from 'material-table'
 import { supabase } from '../../../lib/supabaseClient'
 import { OrderStatus } from '../../../types/Order'
-import { SupaOrderLineItem, SupaWholesaleOrder } from '../../../types/SupaTypes'
+import {
+  SupaOrderLineItem,
+  SupaOrderLineItemData,
+  SupaWholesaleOrder
+} from '../../../types/SupaTypes'
+import { tryParseData } from '../lib'
 import {
   WholesaleOrderDashboardFetcher,
   WholesaleOrderFetcher,
+  WholesaleOrderLineItemsFetcher,
   WholesaleOrdersDataTableFetcher,
   WholesaleOrdersFetcher
 } from '../types'
@@ -49,7 +55,7 @@ export const wholesaleOrdersDashboardFetcher: WholesaleOrderDashboardFetcher =
 export const wholesaleOrdersDataTableFetcher: WholesaleOrdersDataTableFetcher =
   async (q: Query<SupaOrderLineItem> | Query<SupaWholesaleOrder>) => {
     let query = supabase
-      .from('OrderLineItems')
+      .from<SupaOrderLineItem>('OrderLineItems')
       .select('*', { count: 'exact' })
       .is('WholesaleOrderId', null)
       .eq('kind', 'product')
@@ -95,5 +101,33 @@ export const wholesaleOrdersDataTableFetcher: WholesaleOrdersDataTableFetcher =
 
     const { data, error, count } = await query
 
-    return { data: data as SupaOrderLineItem[], error, count }
+    return {
+      data: data?.map((oli) => ({
+        ...oli,
+        data: tryParseData<SupaOrderLineItemData>(oli.data)
+      })) as SupaOrderLineItem[],
+      error,
+      count
+    }
+  }
+
+export const wholesaleOrderLineItemsFetcher: WholesaleOrderLineItemsFetcher =
+  async () => {
+    let query = supabase
+      .from<SupaOrderLineItem>('OrderLineItems')
+      .select('*', { count: 'exact' })
+      .is('WholesaleOrderId', null)
+      .eq('kind', 'product')
+      .or('status.neq.on_hand,status.is.null')
+
+    const { data, error, count } = await query
+
+    return {
+      data: data?.map((oli) => ({
+        ...oli,
+        data: tryParseData<SupaOrderLineItemData>(oli.data)
+      })) as SupaOrderLineItem[],
+      error,
+      count
+    }
   }

@@ -1,5 +1,5 @@
 import { Query } from 'material-table'
-import { SuperOrderAndAssoc } from '../../../types/SupaTypes'
+import { SupaOrder, SuperOrderAndAssoc } from '../../../types/SupaTypes'
 import {
   OrderDashboardFetcher,
   OrderDataTableFetcher,
@@ -7,27 +7,29 @@ import {
   OrdersForMember
 } from '../types'
 
+import ordersData from './orders.json'
+
+const orders = ordersData as unknown as SupaOrder[]
+
 export const ordersDashboardFetcher: OrderDashboardFetcher = async () => {
-  // #TODO
   return {
-    data: [],
+    data: orders.slice(0, 10),
     error: null
   }
 }
 
 export const ordersForMember: OrdersForMember = async (MemberId: number) => {
-  // #TODO
-  return { data: [], error: null }
+  return { data: orders.filter((o) => o.MemberId === MemberId), error: null }
 }
 
 export const orderFetcher: OrderFetcher = async (id: number) => {
-  // #TODO
-  return { data: null, error: null }
+  const data = orders.find((o) => o.id === id) as SuperOrderAndAssoc
+  return { data, error: null }
 }
 
 export const ordersDataTableFetcher: OrderDataTableFetcher = async (
   q: Query<SuperOrderAndAssoc>
 ) => {
-  // #TODO
-  return { data: [], error: null, count: 0 }
+  const data = orders as unknown as SuperOrderAndAssoc[]
+  return { data, error: null, count: data.length }
 }

@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { ordersDashboardFetcher } from '../fetchers/supabase/orders'
+import { ordersDashboardFetcher } from '../fetchers'
 
 export function useOrdersDashboard() {
   const { data, error } = useSWR('dashboard_orders', ordersDashboardFetcher)

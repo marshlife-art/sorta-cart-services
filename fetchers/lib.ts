@@ -15,3 +15,15 @@ export const mapMembersToAutocomplete = (m: SupaMemberWithUser) => ({
   }`,
   member: m
 })
+
+export function tryParseData<T>(data: any): T | null {
+  if (typeof data !== 'string') {
+    return data as T
+  }
+  try {
+    return JSON.parse(data)
+  } catch (e) {
+    console.warn('tryParseData JSON.parse caught error!', e)
+    return null
+  }
+}

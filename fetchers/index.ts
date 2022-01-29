@@ -24,7 +24,8 @@ import {
   wholesaleOrdersFetcher as supaWholesaleOrdersFetcher,
   wholesaleOrderFetcher as supaWholesaleOrderFetcher,
   wholesaleOrdersDashboardFetcher as supaWholesaleOrdersDashboardFetcher,
-  wholesaleOrdersDataTableFetcher as supaWholesaleOrdersDataTableFetcher
+  wholesaleOrdersDataTableFetcher as supaWholesaleOrdersDataTableFetcher,
+  wholesaleOrderLineItemsFetcher as supaWholesaleOrderLineItemsFetcher
 } from './supabase/wholesaleorders'
 
 import {
@@ -53,7 +54,8 @@ import {
   wholesaleOrdersFetcher as localWholesaleOrdersFetcher,
   wholesaleOrderFetcher as localWholesaleOrderFetcher,
   wholesaleOrdersDashboardFetcher as localWholesaleOrdersDashboardFetcher,
-  wholesaleOrdersDataTableFetcher as localWholesaleOrdersDataTableFetcher
+  wholesaleOrdersDataTableFetcher as localWholesaleOrdersDataTableFetcher,
+  wholesaleOrderLineItemsFetcher as localWholesaleOrderLineItemsFetcher
 } from './local/wholesaleorders'
 
 // hmm this all is maybe kinda repetive, there's prolly a better way to do this :/
@@ -160,3 +162,7 @@ export const wholesaleOrdersDashboardFetcher = process.env.USE_LOCAL_SERVICES
 export const wholesaleOrdersDataTableFetcher = process.env.USE_LOCAL_SERVICES
   ? localWholesaleOrdersDataTableFetcher
   : supaWholesaleOrdersDataTableFetcher
+
+export const wholesaleOrderLineItemsFetcher = process.env.USE_LOCAL_SERVICES
+  ? localWholesaleOrderLineItemsFetcher
+  : supaWholesaleOrderLineItemsFetcher

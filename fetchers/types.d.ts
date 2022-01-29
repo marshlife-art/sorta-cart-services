@@ -133,3 +133,11 @@ export interface WholesaleOrdersDataTableFetcher {
     count: number | null
   }>
 }
+
+export interface WholesaleOrderLineItemsFetcher {
+  (): Promise<{
+    data: SupaOrderLineItem[]
+    error: PostgrestError | null
+    count: number | null
+  }>
+}
