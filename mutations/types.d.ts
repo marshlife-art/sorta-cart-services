@@ -9,7 +9,7 @@ import { PostgrestError } from '@supabase/supabase-js'
  * products
  */
 export interface UpdateNoBackorder {
-  (prevImportTag: string): Promise<{
+  (prevImportTag: string, column?: 'import_tag' | 'vendor'): Promise<{
     error: PostgrestError | null
   }>
 }

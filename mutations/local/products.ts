@@ -1,4 +1,3 @@
-import { SupaProduct } from '../../../types/SupaTypes'
 import {
   DeleteProducts,
   UpdateNoBackorder,
@@ -6,8 +5,11 @@ import {
   UpsertProducts
 } from '../types'
 
+import { SupaProduct } from '../../../types/SupaTypes'
+
 export const updateNoBackorder: UpdateNoBackorder = async (
-  prevImportTag: string
+  prevImportTag: string,
+  column?: 'import_tag' | 'vendor'
 ) => {
   // #TODO
   return { error: null }
